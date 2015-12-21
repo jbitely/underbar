@@ -233,6 +233,14 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    _.each(arguments, function(source){
+      for (var property in source){
+        if (obj[property] === undefined){
+          obj[property] = source[property];
+        }
+      }
+    });
+    return obj;
   };
 
 
