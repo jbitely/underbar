@@ -303,8 +303,6 @@
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments);
     var origArgs = args.slice(2);
-    console.log(args);
-    console.log(origArgs);
     return setTimeout(function(){
       return func.apply(this, origArgs);
     }, wait);
@@ -322,6 +320,34 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var shuffled = array.slice();
+    var current = shuffled.length;
+    var temp;
+    var random;
+
+    // function to check if arrays are equal
+    var dupeCheck = function(array1, array2){
+      for(var i = 0; i < array1.length; i++){
+        if(array1[i] !== array2[i]){
+          return false;
+        }
+      }
+      return true;
+    };
+
+    while (current){
+      random = Math.floor(Math.random() * current);
+      current--;
+      temp = shuffled[current];
+      shuffled[current] = shuffled[random];
+      shuffled[random] = temp;
+    }
+
+    // check if we randomed the same order and if so reshuffle
+    if(dupeCheck(array, shuffled)){
+      return _.shuffle(array);
+    }
+    return shuffled;
   };
 
 
