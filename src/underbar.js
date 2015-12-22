@@ -284,6 +284,14 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var storedResults = {};
+    return function(){
+      var key = Array.prototype.slice.call(arguments);
+      if(!storedResults[key]){
+        storedResults[key] = func.apply(this, arguments);
+      }
+      return storedResults[key];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
